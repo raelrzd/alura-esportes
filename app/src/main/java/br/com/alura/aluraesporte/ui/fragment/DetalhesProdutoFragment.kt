@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import br.com.alura.aluraesporte.R
 import br.com.alura.aluraesporte.extensions.formatParaMoedaBrasileira
-import br.com.alura.aluraesporte.model.Produto
 import br.com.alura.aluraesporte.ui.activity.CHAVE_PRODUTO_ID
 import br.com.alura.aluraesporte.ui.viewmodel.DetalhesProdutoViewModel
-import kotlinx.android.synthetic.main.detalhes_produto.*
-import org.koin.android.ext.android.inject
+import kotlinx.android.synthetic.main.detalhes_produto.detalhes_produto_botao_comprar
+import kotlinx.android.synthetic.main.detalhes_produto.detalhes_produto_nome
+import kotlinx.android.synthetic.main.detalhes_produto.detalhes_produto_preco
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -23,7 +24,6 @@ class DetalhesProdutoFragment : Fragment() {
             ?: throw IllegalArgumentException(ID_PRODUTO_INVALIDO)
     }
     private val viewModel: DetalhesProdutoViewModel by viewModel { parametersOf(produtoId) }
-    var quandoProdutoComprado: (produto: Produto) -> Unit = {}
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +45,12 @@ class DetalhesProdutoFragment : Fragment() {
 
     private fun configuraBotaoComprar() {
         detalhes_produto_botao_comprar.setOnClickListener {
-            viewModel.produtoEncontrado.value?.let(quandoProdutoComprado)
+            viewModel.produtoEncontrado.value?.let {
+                val navController = findNavController()
+                val dados = Bundle()
+                dados.putLong(CHAVE_PRODUTO_ID, produtoId)
+                navController.navigate(R.id.pagamento, dados)
+            }
         }
     }
 
