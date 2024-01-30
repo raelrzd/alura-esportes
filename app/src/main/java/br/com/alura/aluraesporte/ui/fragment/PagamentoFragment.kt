@@ -80,7 +80,7 @@ class PagamentoFragment : Fragment() {
 
     private fun vaiParaListaProdutos() {
         Toast.makeText(context, COMPRA_REALIZADA, Toast.LENGTH_LONG).show()
-        navController.popBackStack(R.id.acao_pagamento_para_listaProdutos, false)
+        navController.navigate(R.id.acao_pagamento_para_listaProdutos)
     }
 
     private fun criaPagamento(): Pagamento? {
