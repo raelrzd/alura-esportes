@@ -24,6 +24,7 @@ class DetalhesProdutoFragment : Fragment() {
             ?: throw IllegalArgumentException(ID_PRODUTO_INVALIDO)
     }
     private val viewModel: DetalhesProdutoViewModel by viewModel { parametersOf(produtoId) }
+    private val navController by lazy { findNavController() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,12 +47,15 @@ class DetalhesProdutoFragment : Fragment() {
     private fun configuraBotaoComprar() {
         detalhes_produto_botao_comprar.setOnClickListener {
             viewModel.produtoEncontrado.value?.let {
-                val navController = findNavController()
-                val dados = Bundle()
-                dados.putLong(CHAVE_PRODUTO_ID, produtoId)
-                navController.navigate(R.id.pagamento, dados)
+                vaiParaPagamento()
             }
         }
+    }
+
+    private fun vaiParaPagamento() {
+        val dados = Bundle()
+        dados.putLong(CHAVE_PRODUTO_ID, produtoId)
+        navController.navigate(R.id.pagamento, dados)
     }
 
     private fun buscaProduto() {
