@@ -29,8 +29,15 @@ class ListaProdutosFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        verificaSeEstaLogado()
         buscaProdutos()
         setHasOptionsMenu(true)
+    }
+
+    private fun verificaSeEstaLogado() {
+        if (loginViewModel.naoEstaLogado()) {
+            vaiParaLogin()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -41,10 +48,14 @@ class ListaProdutosFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.menu_lista_produtos_deslogar) {
             loginViewModel.deslogar()
-            val direction = ListaProdutosFragmentDirections.acaoListaProdutosParaLogin()
-            navController.navigate(direction)
+            vaiParaLogin()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun vaiParaLogin() {
+        val direction = ListaProdutosFragmentDirections.acaoListaProdutosParaLogin()
+        navController.navigate(direction)
     }
 
     private fun buscaProdutos() {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/login">
+    app:startDestination="@id/listaProdutos">
 
     <fragment
         android:id="@+id/listaProdutos"
@@ -25,7 +25,8 @@
             app:launchSingleTop="false"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/listaProdutos"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

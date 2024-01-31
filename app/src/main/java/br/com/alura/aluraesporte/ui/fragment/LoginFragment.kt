@@ -26,11 +26,10 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        configuraBotaoLogin()
+    }
 
-        if (viewModel.estaLogado()) {
-            vaiParaListaProdutos()
-        }
-
+    private fun configuraBotaoLogin() {
         login_botao_logar.setOnClickListener {
             viewModel.loga()
             vaiParaListaProdutos()
