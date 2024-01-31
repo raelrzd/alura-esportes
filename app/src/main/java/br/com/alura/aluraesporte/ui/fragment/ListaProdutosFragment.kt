@@ -2,6 +2,9 @@ package br.com.alura.aluraesporte.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout.VERTICAL
@@ -11,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import br.com.alura.aluraesporte.R
 import br.com.alura.aluraesporte.ui.recyclerview.adapter.ProdutosAdapter
+import br.com.alura.aluraesporte.ui.viewmodel.LoginViewModel
 import br.com.alura.aluraesporte.ui.viewmodel.ProdutosViewModel
 import kotlinx.android.synthetic.main.lista_produtos.lista_produtos_recyclerview
 import org.koin.android.ext.android.inject
@@ -19,12 +23,28 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class ListaProdutosFragment : Fragment() {
 
     private val viewModel: ProdutosViewModel by viewModel()
+    private val loginViewModel: LoginViewModel by viewModel()
     private val adapter: ProdutosAdapter by inject()
     private val navController by lazy { findNavController() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         buscaProdutos()
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_lista_produtos, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.menu_lista_produtos_deslogar) {
+            loginViewModel.deslogar()
+            val direction = ListaProdutosFragmentDirections.acaoListaProdutosParaLogin()
+            navController.navigate(direction)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun buscaProdutos() {
