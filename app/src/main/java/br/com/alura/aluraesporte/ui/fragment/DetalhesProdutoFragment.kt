@@ -2,39 +2,28 @@ package br.com.alura.aluraesporte.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.alura.aluraesporte.R
 import br.com.alura.aluraesporte.extensions.formatParaMoedaBrasileira
 import br.com.alura.aluraesporte.ui.viewmodel.DetalhesProdutoViewModel
-import br.com.alura.aluraesporte.ui.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.detalhes_produto.detalhes_produto_botao_comprar
 import kotlinx.android.synthetic.main.detalhes_produto.detalhes_produto_nome
 import kotlinx.android.synthetic.main.detalhes_produto.detalhes_produto_preco
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class DetalhesProdutoFragment : Fragment() {
+class DetalhesProdutoFragment : BaseFragment() {
 
     private val argumentos by navArgs<DetalhesProdutoFragmentArgs>()
     private val produtoId by lazy {
         argumentos.produtoId
     }
     private val viewModel: DetalhesProdutoViewModel by viewModel { parametersOf(produtoId) }
-    private val loginViewModel: LoginViewModel by viewModel()
     private val navController by lazy { findNavController() }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,24 +41,6 @@ class DetalhesProdutoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         buscaProduto()
         configuraBotaoComprar()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_lista_produtos, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_lista_produtos_deslogar) {
-            loginViewModel.deslogar()
-            vaiParaLogin()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun vaiParaLogin() {
-        val direction = DetalhesProdutoFragmentDirections.actionGlobalLogin()
-        navController.navigate(direction)
     }
 
     private fun configuraBotaoComprar() {
