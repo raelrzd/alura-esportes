@@ -54,7 +54,7 @@ class ListaProdutosFragment : Fragment() {
     }
 
     private fun vaiParaLogin() {
-        val direction = ListaProdutosFragmentDirections.acaoListaProdutosParaLogin()
+        val direction = ListaProdutosFragmentDirections.actionGlobalLogin()
         navController.navigate(direction)
     }
 
