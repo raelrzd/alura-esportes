@@ -1,6 +1,7 @@
 package br.com.alura.aluraesporte.ui.activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
@@ -18,20 +19,27 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        eventosDeNavegacaoListener()
+        main_activity_bottom_navigation.setupWithNavController(navController)
+    }
 
+    private fun eventosDeNavegacaoListener() {
         navController.addOnDestinationChangedListener { navController, navDestination, bundle ->
             title = navDestination.label
-
-            viewModel.appBar.observe(this, Observer {
-                it?.let { temAppBar ->
-                    if (temAppBar) supportActionBar?.show()
-                    else supportActionBar?.hide()
-                }
-            })
+            configuraComponentesVisuais()
         }
+    }
 
-        main_activity_bottom_navigation.setupWithNavController(navController)
+    private fun configuraComponentesVisuais() {
+        viewModel.componentesVisuais.observe(this, Observer {
+            it?.let { temComponentes ->
+                if (temComponentes.appBar) supportActionBar?.show()
+                else supportActionBar?.hide()
 
+                main_activity_bottom_navigation.visibility =
+                    if (temComponentes.bottomNavigation) View.VISIBLE else View.GONE
+            }
+        })
     }
 
 }
