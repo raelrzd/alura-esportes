@@ -12,12 +12,14 @@ import br.com.alura.aluraesporte.R
 import br.com.alura.aluraesporte.extensions.formatParaMoedaBrasileira
 import br.com.alura.aluraesporte.model.Pagamento
 import br.com.alura.aluraesporte.model.Produto
+import br.com.alura.aluraesporte.ui.viewmodel.EstadoAppViewModel
 import br.com.alura.aluraesporte.ui.viewmodel.PagamentoViewModel
 import kotlinx.android.synthetic.main.pagamento.pagamento_botao_confirma_pagamento
 import kotlinx.android.synthetic.main.pagamento.pagamento_cvc
 import kotlinx.android.synthetic.main.pagamento.pagamento_data_validade
 import kotlinx.android.synthetic.main.pagamento.pagamento_numero_cartao
 import kotlinx.android.synthetic.main.pagamento.pagamento_preco
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val FALHA_AO_CRIAR_PAGAMENTO = "Falha ao criar pagamento"
@@ -30,6 +32,7 @@ class PagamentoFragment : BaseFragment() {
         argumentos.produtoId
     }
     private val viewModel: PagamentoViewModel by viewModel()
+    private val estadoAppViewModel: EstadoAppViewModel by sharedViewModel()
     private lateinit var produtoEscolhido: Produto
     private val navController by lazy { findNavController() }
 
@@ -47,6 +50,7 @@ class PagamentoFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        estadoAppViewModel.temAppBar = true
         configuraBotaoConfirmaPagamento()
         buscaProduto()
     }
