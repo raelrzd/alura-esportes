@@ -1,5 +1,6 @@
 package br.com.alura.aluraesporte.ui.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import br.com.alura.aluraesporte.model.Pagamento
 import br.com.alura.aluraesporte.repository.PagamentoRepository
@@ -10,6 +11,9 @@ class PagamentoViewModel(
     private val produtodRepository: ProdutoRepository) : ViewModel() {
 
     fun salva(pagamento: Pagamento) = pagamentoRepository.salva(pagamento)
+
     fun buscaProdutoPorId(id: Long) = produtodRepository.buscaPorId(id)
+
+    fun buscaTodos(): LiveData<List<Pagamento>> = pagamentoRepository.buscaTodos()
 
 }

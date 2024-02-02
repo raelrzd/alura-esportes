@@ -26,6 +26,7 @@ class ListaProdutosFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        navController.navigate(R.id.listaPagamentos)
         buscaProdutos()
     }
 
